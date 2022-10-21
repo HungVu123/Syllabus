@@ -18,11 +18,11 @@ public class DeliveryType {
     private Long id;
 
     @OneToMany(
-            mappedBy = "deliverytype",
+            mappedBy = "deliveryType",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<SyllabusUnitChapter> syllabusunitchapter = new ArrayList<>();
+    private List<SyllabusUnitChapter> syllabusUnitChapterInDeli = new ArrayList<>();
 
     private String name;
     private String description;

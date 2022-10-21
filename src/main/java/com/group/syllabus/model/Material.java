@@ -19,7 +19,7 @@ public class Material {
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private SyllabusUnitChapter material;
+    private SyllabusUnitChapter syllabusUnitChapter;
 
     // private createdBy;
     private Timestamp createdDate;

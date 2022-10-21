@@ -25,7 +25,7 @@ public class SyllabusUnit {
     private SyllabusSession syllabusUnitSession;
 
     @OneToMany(
-            mappedBy = "syllabusUnitChapter",
+            mappedBy = "syllabusUnit",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )

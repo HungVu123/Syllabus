@@ -1,8 +1,7 @@
 package com.group.syllabus.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -13,6 +12,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+//@Getter
+//@Setter
 public class Syllabus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +48,9 @@ public class Syllabus {
     private int status;
     // private isTemplate;
     // private createdBy;
+    @CreationTimestamp
     private Timestamp createdDate;
     // private updatedBy;
+    @CreationTimestamp
     private Timestamp updatedDate;
 }

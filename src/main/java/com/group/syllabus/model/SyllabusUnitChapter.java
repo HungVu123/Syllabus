@@ -18,7 +18,7 @@ public class SyllabusUnitChapter {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private SyllabusUnit syllabusUnitChapter;
+    private SyllabusUnit syllabusUnit;
 
     private String name;
 
@@ -29,7 +29,7 @@ public class SyllabusUnitChapter {
     private DeliveryType deliveryType;
 
     @OneToMany(
-            mappedBy = "material",
+            mappedBy = "syllabusUnitChapter",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )

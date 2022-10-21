@@ -18,11 +18,11 @@ public class OutputStandard {
     private Long id;
 
     @OneToMany(
-            mappedBy = "outputstandard",
+            mappedBy = "outputStandard",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<SyllabusUnitChapter> syllabusunitchapter = new ArrayList<>();
+    private List<SyllabusUnitChapter> syllabusUnitChapter = new ArrayList<>();
 
     private String code;
     private String name;

@@ -22,13 +22,13 @@ public class SyllabusUnit {
     private int duration;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private SyllabusSession syllabusunitsession;
+    private SyllabusSession syllabusUnitSession;
 
     @OneToMany(
-            mappedBy = "syllabusunitchapter",
+            mappedBy = "syllabusUnitChapter",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<SyllabusUnitChapter> syllabusunitchapter = new ArrayList<>();
+    private List<SyllabusUnitChapter> syllabusUnitChapter = new ArrayList<>();
     // private trainerId;
 }

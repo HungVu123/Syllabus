@@ -18,15 +18,15 @@ public class SyllabusUnitChapter {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private SyllabusSession syllabusunitchapter;
+    private SyllabusUnit syllabusUnitChapter;
 
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private OutputStandard outputstandard;
+    private OutputStandard outputStandard;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private DeliveryType deliverytype;
+    private DeliveryType deliveryType;
 
     @OneToMany(
             mappedBy = "material",

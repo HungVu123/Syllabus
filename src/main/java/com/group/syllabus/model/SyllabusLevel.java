@@ -18,7 +18,7 @@ public class SyllabusLevel {
     private Long id;
 
     @OneToMany(
-            mappedBy = "syllevel",
+            mappedBy = "syllabusLevel",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )

@@ -22,25 +22,25 @@ public class Syllabus {
     private double version;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private SyllabusLevel syllevel;
+    private SyllabusLevel syllabusLevel;
 
     @OneToMany(
-            mappedBy = "syllabussession",
+            mappedBy = "syllabusSession",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<SyllabusSession> syllabusssession = new ArrayList<>();
+    private List<SyllabusSession> syllabusSession = new ArrayList<>();
 
     // private attendeeNo;
     private String techReq;
     private String courseObj;
 
     @OneToMany(
-            mappedBy = "syllabusdeliveryprinciple",
+            mappedBy = "syllabusDeliveryPrinciple",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<DeliveryPrinciple> deliveryprinciple = new ArrayList<>();
+    private List<DeliveryPrinciple> deliveryPrinciple = new ArrayList<>();
 
     private int days;
     private int hours;

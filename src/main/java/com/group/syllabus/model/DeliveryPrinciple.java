@@ -17,6 +17,6 @@ public class DeliveryPrinciple {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Syllabus syllabusdeliveryprinciple;
+    private Syllabus syllabusDeliveryPrinciple;
 
 }

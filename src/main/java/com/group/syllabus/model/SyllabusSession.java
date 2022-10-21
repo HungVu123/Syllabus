@@ -18,13 +18,13 @@ public class SyllabusSession {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Syllabus syllabusSession;
+    private Syllabus syllabus;
 
     private int sessionNo;
     private int status;
 
     @OneToMany(
-            mappedBy = "syllabusUnitSession",
+            mappedBy = "syllabusSession",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )

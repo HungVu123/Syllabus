@@ -26,7 +26,7 @@ public class Syllabus {
     private SyllabusLevel syllabusLevel;
 
     @OneToMany(
-            mappedBy = "syllabusSession",
+            mappedBy = "syllabus",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
@@ -37,7 +37,7 @@ public class Syllabus {
     private String courseObj;
 
     @OneToMany(
-            mappedBy = "syllabusDeliveryPrinciple",
+            mappedBy = "syllabus",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )

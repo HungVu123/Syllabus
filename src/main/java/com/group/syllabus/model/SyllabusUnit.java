@@ -22,7 +22,7 @@ public class SyllabusUnit {
     private int duration;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private SyllabusSession syllabusUnitSession;
+    private SyllabusSession syllabusSession;
 
     @OneToMany(
             mappedBy = "syllabusUnit",

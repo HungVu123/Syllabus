@@ -24,8 +24,8 @@ public class SyllabusController {
        SyllabusLevelDTO syllabusLevel = new SyllabusLevelDTO();
         syllabusLevel.setLevelName(syllabus.getSyllabusLevel().getLevelName());
        syllabus.setSyllabusLevel(syllabusLevel);
-
-        return syllabusRepository.save(modelMapper.map(syllabus,Syllabus.class));
+        modelMapper.map(syllabus,Syllabus.class);
+        return syllabusRepository.saveAndFlush(modelMapper.map(syllabus,Syllabus.class));
 
     }
 }

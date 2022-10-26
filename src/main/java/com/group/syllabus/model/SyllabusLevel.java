@@ -14,7 +14,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class SyllabusLevel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,27 +29,4 @@ public class SyllabusLevel {
 
     private String levelName;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<Syllabus> getSyllabus() {
-        return syllabus;
-    }
-
-    public void setSyllabus(List<Syllabus> syllabus) {
-        this.syllabus = syllabus;
-    }
-
-    public String getLevelName() {
-        return levelName;
-    }
-
-    public void setLevelName(String levelName) {
-        this.levelName = levelName;
-    }
 }

@@ -1,5 +1,6 @@
 package com.group.syllabus.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,9 +15,24 @@ public class DeliveryPrinciple {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+//    @Column(length = 1337)
+//    private String content;
+    private String trainees;
+    private String trainer;
+    @Column(length = 1337)
+    private String training;
+    private String re_test;
+    private String marking;
+    private String waivercriteria;
+    private String others;
+
+    @OneToOne(
+            mappedBy = "deliveryPrinciple",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    @JsonIgnore
     private Syllabus syllabus;
 
 }

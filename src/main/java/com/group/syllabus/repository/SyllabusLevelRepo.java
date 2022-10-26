@@ -1,8 +1,6 @@
-package com.group.syllabus.Repository;
+package com.group.syllabus.repository;
 
-import com.group.syllabus.model.Syllabus;
 import com.group.syllabus.model.SyllabusLevel;
-import com.group.syllabus.model.SyllabusSession;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

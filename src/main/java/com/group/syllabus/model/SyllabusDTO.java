@@ -3,6 +3,7 @@ package com.group.syllabus.model;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class SyllabusDTO {
 
@@ -16,6 +17,25 @@ public class SyllabusDTO {
     private int days;
     private int hours;
     private int status;
+    private List<SyllabusSessionDTO> syllabusSessionDTO;
+    private List<DeliveryPrincipleDTO> deliveryPrincipleDTO;
+
+    public List<SyllabusSessionDTO> getSyllabusSessionDTO() {
+        return syllabusSessionDTO;
+    }
+
+    public void setSyllabusSessionDTO(List<SyllabusSessionDTO> syllabusSessionDTO) {
+        this.syllabusSessionDTO = syllabusSessionDTO;
+    }
+
+    public List<DeliveryPrincipleDTO> getDeliveryPrincipleDTO() {
+        return deliveryPrincipleDTO;
+    }
+
+    public void setDeliveryPrincipleDTO(List<DeliveryPrincipleDTO> deliveryPrincipleDTO) {
+        this.deliveryPrincipleDTO = deliveryPrincipleDTO;
+    }
+
     private Timestamp createdDate;
     // private updatedBy;
 

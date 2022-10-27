@@ -28,7 +28,7 @@ public class Syllabus {
 
     @OneToMany(
             mappedBy = "syllabusSession",
-            cascade = CascadeType.ALL,
+            cascade = {CascadeType.ALL},
             orphanRemoval = true
     )
     private List<SyllabusSession> syllabusSession = new ArrayList<>();
@@ -39,7 +39,7 @@ public class Syllabus {
 
     @OneToMany(
             mappedBy = "syllabusDeliveryPrinciple",
-            cascade = CascadeType.ALL,
+            cascade = {CascadeType.ALL},
             orphanRemoval = true
     )
     private List<DeliveryPrinciple> deliveryPrinciple = new ArrayList<>();

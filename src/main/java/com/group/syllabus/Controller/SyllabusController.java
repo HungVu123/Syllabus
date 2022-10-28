@@ -1,19 +1,24 @@
 package com.group.syllabus.Controller;
 
 
+import com.group.syllabus.DTO.*;
 import com.group.syllabus.Repository.DeliveryPrincipleRepository;
 
 import com.group.syllabus.Repository.SyllabusLevelRepo;
 import com.group.syllabus.Repository.SyllabusRepository;
 
 import com.group.syllabus.Repository.SyllabusSessionRepository;
+import com.group.syllabus.Service.ServiceSyllabus;
 import com.group.syllabus.model.*;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 @RestController
 
@@ -29,26 +34,23 @@ public class SyllabusController {
     private DeliveryPrincipleRepository deliveryPrincipleRepository;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private ServiceSyllabus serviceSyllabus;
+    private static final Logger LOGGER = LoggerFactory.getLogger(SyllabusController.class);
     @GetMapping ("/create")
 
-    public Syllabus createNew(@RequestBody SyllabusDTO syllabus) {
-       SyllabusLevelDTO syllabusLevel = new SyllabusLevelDTO();
-        SyllabusSessionDTO syllabusSessionDTOS = new SyllabusSessionDTO();
-        for(int i =0 ;i<syllabus.getSyllabusSessionDTO().size();i++){
-            syllabusSessionDTOS.setSessionNo(syllabus.getSyllabusSessionDTO().get(i).getSessionNo());
-            syllabusSessionDTOS.setStatus(syllabus.getSyllabusSessionDTO().get(i).getStatus());
-            syllabusSessionRepository.save(modelMapper.map(syllabusSessionDTOS,SyllabusSession.class));
+    public ResponseEntity<?> createNew(@RequestBody SyllabusDTO syllabus) {
+        LOGGER.info("Start method save in Syllabus Controller");
+        String message = "";
+        try {
+            Syllabus syllabus1 = serviceSyllabus.CreateSyllabus(syllabus);
+            LOGGER.info(message);
+            ResponseObject response = new ResponseObject("OK", message, null, syllabus1);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            message = "Couldn't Create Syllabus" ;
+            ErrorResponse error = new ErrorResponse(new Date(), "ERROR", message);
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(error);
         }
-        DeliveryPrincipleDTO deliveryPrincipleDTOS = new DeliveryPrincipleDTO();
-        for(int i =0 ;i<syllabus.getDeliveryPrincipleDTO().size();i++){
-            deliveryPrincipleDTOS.setContent(syllabus.getDeliveryPrincipleDTO().get(i).getContent());
-            deliveryPrincipleRepository.save(modelMapper.map(deliveryPrincipleDTOS,DeliveryPrinciple.class));
-        }
-
-        syllabusLevel.setLevelName(syllabus.getSyllabusLevel().getLevelName());
-       syllabus.setSyllabusLevel(syllabusLevel);
-        syllabusRepository.save(modelMapper.map(syllabus,Syllabus.class));
-        return syllabusRepository.save(modelMapper.map(syllabus,Syllabus.class));
-
     }
 }

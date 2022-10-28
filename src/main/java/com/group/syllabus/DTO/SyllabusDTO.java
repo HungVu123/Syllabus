@@ -1,6 +1,4 @@
-package com.group.syllabus.model;
-
-import org.hibernate.annotations.CreationTimestamp;
+package com.group.syllabus.DTO;
 
 import java.sql.Timestamp;
 import java.util.List;

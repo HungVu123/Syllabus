@@ -1,4 +1,4 @@
-package com.group.syllabus.model;
+package com.group.syllabus.DTO;
 
 
 

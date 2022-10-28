@@ -1,10 +1,15 @@
-package com.group.syllabus.model;
+package com.group.syllabus.DTO;
+
+import com.group.syllabus.model.SyllabusUnit;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SyllabusSessionDTO {
     private Long id;
     private int sessionNo;
     private int status;
-    private SyllabusUnit syllabusUnit;
+    private List<SyllabusUnitDTO> syllabusUnit = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -30,11 +35,11 @@ public class SyllabusSessionDTO {
         this.status = status;
     }
 
-    public SyllabusUnit getSyllabusUnit() {
+    public List<SyllabusUnitDTO> getSyllabusUnit() {
         return syllabusUnit;
     }
 
-    public void setSyllabusUnit(SyllabusUnit syllabusUnit) {
+    public void setSyllabusUnit(List<SyllabusUnitDTO> syllabusUnit) {
         this.syllabusUnit = syllabusUnit;
     }
 }

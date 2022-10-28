@@ -1,43 +1,58 @@
 package com.group.syllabus.model;
 
+import java.util.List;
+import java.util.UUID;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class SyllabusUnitChapter {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    @Type(type = "org.hibernate.type.UUIDCharType")
+    private UUID id;
+    private String name;
+    private int duration;
+    private boolean isOnline;
 
+    @OneToMany(mappedBy = "unitChapter")
+    private List<Material> materials;
+    // unit_id
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "unit_id")
     private SyllabusUnit syllabusUnit;
 
-    private String name;
-
+    // output_standard_id
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "output_standard_id")
     private OutputStandard outputStandard;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    // delivery_type_id
+    @ManyToOne
+    @JoinColumn(name = "delivery_type_id")
     private DeliveryType deliveryType;
 
-    @OneToMany(
-            mappedBy = "syllabusUnitChapter",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<Material> material = new ArrayList<>();
-
-    private int duration;
-    private int online; // status
-
-
-    // private sort;
 }
+

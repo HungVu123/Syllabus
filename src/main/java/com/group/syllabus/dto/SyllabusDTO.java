@@ -17,6 +17,7 @@ public class SyllabusDTO {
     private String name;
     private String code;
     private double version;
+    private SyllabusSessionDTO syllabusSession;
     private SyllabusLevelDTO syllabusLevel;
     private DeliveryPrincipleDTO deliveryPrinciple;
     private String techReq;

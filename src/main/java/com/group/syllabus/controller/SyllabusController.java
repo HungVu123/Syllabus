@@ -4,6 +4,7 @@ package com.group.syllabus.controller;
 import com.group.syllabus.dto.DeliveryPrincipleDTO;
 import com.group.syllabus.dto.SyllabusDTO;
 import com.group.syllabus.dto.SyllabusLevelDTO;
+import com.group.syllabus.dto.SyllabusSessionDTO;
 import com.group.syllabus.repository.SyllabusLevelRepo;
 import com.group.syllabus.repository.SyllabusRepo;
 
@@ -32,8 +33,11 @@ public class SyllabusController {
     @PostMapping ("/create")
     public Syllabus createNew(@RequestBody SyllabusDTO syllabus) {
        SyllabusLevelDTO syllabusLevel = new SyllabusLevelDTO();
+       SyllabusSessionDTO syllabusSession = new SyllabusSessionDTO();
+       syllabusSession.setSessionNo(syllabus.getSyllabusSession().getSessionNo());
        syllabusLevel.setLevelName(syllabus.getSyllabusLevel().getLevelName());
        syllabus.setSyllabusLevel(syllabusLevel);
+       syllabus.setSyllabusSession(syllabusSession);
        return syllabusRepo.save(modelMapper.map(syllabus,Syllabus.class));
     }
 
@@ -81,7 +85,7 @@ public class SyllabusController {
         deliveryprinciple.setTraining(worksheet1.getRow(29).getCell(4).getStringCellValue());
         deliveryprinciple.setRe_test(worksheet1.getRow(30).getCell(4).getStringCellValue());
         deliveryprinciple.setMarking(worksheet1.getRow(31).getCell(4).getStringCellValue());
-        deliveryprinciple.setWaivercriteria(worksheet1.getRow(32).getCell(4).getStringCellValue());
+        deliveryprinciple.setWaiverCriteria(worksheet1.getRow(32).getCell(4).getStringCellValue());
         deliveryprinciple.setOthers(worksheet1.getRow(33).getCell(4).getStringCellValue());
         syllabus.setDeliveryPrinciple(deliveryprinciple);
 

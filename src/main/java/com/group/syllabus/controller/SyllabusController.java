@@ -29,7 +29,7 @@ public class SyllabusController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @GetMapping ("/create")
+    @PostMapping ("/create")
     public Syllabus createNew(@RequestBody SyllabusDTO syllabus) {
        SyllabusLevelDTO syllabusLevel = new SyllabusLevelDTO();
        syllabusLevel.setLevelName(syllabus.getSyllabusLevel().getLevelName());

@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,8 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.group.syllabus.meta.SyllabusStatus;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,9 +25,9 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class SyllabusUnit {
+@NoArgsConstructor
+public class SyllabusDay {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -33,22 +37,16 @@ public class SyllabusUnit {
     @Column(name = "id", updatable = false, nullable = false)
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
-    private String name;
-    private int unitNo;
-    private int duration;
 
-    @OneToMany(mappedBy = "syllabusUnit")
-    private List<SyllabusUnitChapter> syllabusUnitChapters;
+    private int dayNo;
 
-    // syllabus_id
+    @Enumerated(EnumType.ORDINAL)
+    private SyllabusStatus status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "syllabus_id")
     private Syllabus syllabus;
 
-    // syllabus_day_id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "syllabus_day_id")
-    private SyllabusDay syllabusDay;
-
-    // trainer_id
+    @OneToMany(mappedBy = "syllabusDay")
+    private List<SyllabusUnit> syllabusUnits;
 }

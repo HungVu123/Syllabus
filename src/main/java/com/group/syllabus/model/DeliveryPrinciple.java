@@ -24,7 +24,7 @@ public class DeliveryPrinciple {
     private String training;
     private String re_test;
     private String marking;
-    private String waivercriteria;
+    private String waiverCriteria;
     private String others;
 
     @OneToOne(

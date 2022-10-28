@@ -22,6 +22,9 @@ public class Syllabus {
     private String code;
     private double version;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private AssessmentScheme assessmentScheme;
+
     @ManyToOne(fetch = FetchType.LAZY,cascade=CascadeType.ALL )
     private SyllabusLevel syllabusLevel;
 
@@ -32,7 +35,7 @@ public class Syllabus {
     )
     private List<SyllabusSession> syllabusSession = new ArrayList<>();
 
-    // private attendeeNo;
+    private int attendeeNo;
     @Column(length = 1337)
     private String techReq;
 
@@ -45,12 +48,10 @@ public class Syllabus {
     private int days;
     private int hours;
     private int status;
-    // private isTemplate;
-    // private createdBy;
+    private Long createdBy;
     @CreationTimestamp
     private Timestamp createdDate;
-    // private updatedBy;
+    private Long updatedBy;
     @CreationTimestamp
     private Timestamp updatedDate;
-
 }

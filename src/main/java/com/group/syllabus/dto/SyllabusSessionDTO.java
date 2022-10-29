@@ -1,32 +1,26 @@
-package com.group.syllabus.model;
+package com.group.syllabus.dto;
 
+import com.group.syllabus.model.Syllabus;
+import com.group.syllabus.model.SyllabusUnit;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
-
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SyllabusSession {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@ToString
+public class SyllabusSessionDTO {
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     private Syllabus syllabus;
-
     private int sessionNo;
     private int status;
-
-    @OneToMany(
-            mappedBy = "syllabusSession",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
     private List<SyllabusUnit> syllabusUnit = new ArrayList<>();
 }

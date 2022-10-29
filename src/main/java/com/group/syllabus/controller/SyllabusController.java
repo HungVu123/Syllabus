@@ -52,6 +52,11 @@ public class SyllabusController {
 
         Syllabus syllabus = new Syllabus();
         DeliveryPrinciple deliveryprinciple = new DeliveryPrinciple();
+        SyllabusUnit syllabusUnit = new SyllabusUnit();
+        SyllabusSession syllabusSession = new SyllabusSession();
+        SyllabusUnitChapter syllabusUnitChapter = new SyllabusUnitChapter();
+        DeliveryType deliveryType = new DeliveryType();
+//Sheet 1: Syllabus
 
 //  1.Topic Name
         syllabus.setName(worksheet1.getRow(2).getCell(3).getStringCellValue());
@@ -89,8 +94,32 @@ public class SyllabusController {
         deliveryprinciple.setOthers(worksheet1.getRow(33).getCell(4).getStringCellValue());
         syllabus.setDeliveryPrinciple(deliveryprinciple);
 
+//----------------------------------------------------------------------------------------------------------------------
+//Sheet 2 :Schedule
+        int rows = worksheet2.getLastRowNum();
+        int numMerged = worksheet2.getNumMergedRegions();
+//        for(int r=2;r<rows;r++){
+            for(int n=0;n<numMerged;n++){
+                int firstRow = worksheet2.getMergedRegion(n).getFirstRow();
+                int lastRow = worksheet2.getMergedRegion(n).getLastRow();
+                int numCell = worksheet2.getMergedRegion(n).getNumberOfCells();
+                syllabusUnit.setName(worksheet2.getRow(firstRow).getCell(1).getStringCellValue());
+                System.out.println(numCell + "/" + lastRow + "/" + firstRow);
+                for(int c=firstRow;c<=lastRow;c++){
+                    syllabusUnit.setUnitNo((int) worksheet2.getRow(c).getCell(2).getNumericCellValue());
+                    syllabusUnitChapter.setName(worksheet2.getRow(c).getCell(3).getStringCellValue());
+                    deliveryType.setName(worksheet2.getRow(c).getCell(4).getStringCellValue());
+                    syllabusUnitChapter.setDuration((int) worksheet2.getRow(c).getCell(5).getNumericCellValue());
+                }
+            }
+            syllabusUnit.setSyllabusUnitChapter((List<SyllabusUnitChapter>) syllabusUnitChapter);
+            syllabusSession.setSyllabusUnit((List<SyllabusUnit>) syllabusUnit);
+            syllabus.setSyllabusSession((List<SyllabusSession>) syllabusSession);
+
         syllabusList.add(syllabus);
         syllabusRepo.saveAll(syllabusList);
-    }
 
-}
+       }
+
+
+    }

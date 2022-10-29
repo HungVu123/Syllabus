@@ -24,6 +24,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DeliveryPrinciple {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",

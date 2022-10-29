@@ -58,6 +58,12 @@ public class Syllabus {
     private UUID updatedBy;
     private Date updatedDate;
 
+    @OneToMany(
+            mappedBy = "syllabus",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    List<SyllabusSession> syllabusSession;
     @OneToOne(mappedBy = "syllabus")
     private AssessmentScheme assessmentScheme;
 

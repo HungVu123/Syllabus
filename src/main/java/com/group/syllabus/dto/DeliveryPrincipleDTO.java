@@ -12,7 +12,6 @@ import lombok.ToString;
 public class DeliveryPrincipleDTO {
 
     private Long id;
-//    private String content;
     private String trainees;
     private String trainer;
     private String training;

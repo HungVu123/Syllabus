@@ -16,8 +16,6 @@ public class DeliveryPrinciple {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column(length = 1337)
-//    private String content;
     private String trainees;
     private String trainer;
     @Column(length = 1337)

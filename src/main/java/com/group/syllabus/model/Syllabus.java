@@ -30,7 +30,7 @@ public class Syllabus {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<SyllabusSession> syllabusSession = new ArrayList<>();
+    List<SyllabusSession> syllabusSession;
 
     // private attendeeNo;
     @Column(length = 1337)

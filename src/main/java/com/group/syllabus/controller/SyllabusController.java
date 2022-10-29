@@ -53,7 +53,7 @@ public class SyllabusController {
         Syllabus syllabus = new Syllabus();
         DeliveryPrinciple deliveryprinciple = new DeliveryPrinciple();
         SyllabusUnit syllabusUnit = new SyllabusUnit();
-        SyllabusSession syllabusSession = new SyllabusSession();
+        List<SyllabusDay> syllabusDays;
         SyllabusUnitChapter syllabusUnitChapter = new SyllabusUnitChapter();
         DeliveryType deliveryType = new DeliveryType();
 //Sheet 1: Syllabus
@@ -65,17 +65,17 @@ public class SyllabusController {
         syllabus.setCode(worksheet1.getRow(3).getCell(3).getStringCellValue());
 
 //  3.Version
-        syllabus.setVersion(worksheet1.getRow(4).getCell(3).getNumericCellValue());
+        syllabus.setVersion(worksheet1.getRow(4).getCell(3).getStringCellValue());
 
 //  5.Objectives
-        syllabus.setCourseObj(worksheet1.getRow(6).getCell(3).getStringCellValue()+
+        syllabus.setCourseObjective(worksheet1.getRow(6).getCell(3).getStringCellValue()+
                 "\n"+ worksheet1.getRow(11).getCell(3).getStringCellValue());
 
 //  6.Topic Outline
 //        syllabus.setCode(worksheet1.getRow(12).getCell(3).getStringCellValue());
 
 //  8.Training Materials & Environments Technical requirements
-        syllabus.setTechReq(worksheet1.getRow(22).getCell(4).getStringCellValue());
+        syllabus.setTechnicalRequirement(worksheet1.getRow(22).getCell(4).getStringCellValue());
 
 //  9.Assessment Scheme
 //        for(int i=23;i<27;i++){
@@ -112,9 +112,6 @@ public class SyllabusController {
                     syllabusUnitChapter.setDuration((int) worksheet2.getRow(c).getCell(5).getNumericCellValue());
                 }
             }
-            syllabusUnit.setSyllabusUnitChapter((List<SyllabusUnitChapter>) syllabusUnitChapter);
-            syllabusSession.setSyllabusUnit((List<SyllabusUnit>) syllabusUnit);
-            syllabus.setSyllabusSession((List<SyllabusSession>) syllabusSession);
 
         syllabusList.add(syllabus);
         syllabusRepo.saveAll(syllabusList);

@@ -2,12 +2,7 @@ package com.group.syllabus.model;
 
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -38,7 +33,7 @@ public class AssessmentScheme {
     private Double exam;
     private Double gpa;
     // syllabus id
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "syllabus_id", referencedColumnName = "id")
     private Syllabus syllabus;
 }

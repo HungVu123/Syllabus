@@ -36,7 +36,7 @@ public class DeliveryPrinciple {
     private String waiverCriteria;
     private String others;
     // syllabus_id
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "syllabus_id", referencedColumnName = "id")
     private Syllabus syllabus;
 

@@ -4,17 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import com.group.syllabus.meta.SyllabusStatus;
 import org.hibernate.annotations.GenericGenerator;
@@ -43,7 +33,9 @@ public class Syllabus {
     private String version;
     //	private String levelId; // fk
     private int attendeeNumber;
+    @Column(length = 65555)
     private String technicalRequirement;
+    @Column(length = 65555)
     private String courseObjective;
     //	private int deliveryPrincipleId;// fk
     private int days;
@@ -58,7 +50,7 @@ public class Syllabus {
     private UUID updatedBy;
     private Date updatedDate;
 
-    @OneToOne(mappedBy = "syllabus")
+    @OneToOne(mappedBy = "syllabus",cascade = CascadeType.ALL)
     private AssessmentScheme assessmentScheme;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -68,11 +60,11 @@ public class Syllabus {
     @OneToMany(mappedBy = "syllabus")
     List<SyllabusDay> syllabusDays;
 
-    @OneToOne(mappedBy = "syllabus")
+    @OneToOne(mappedBy = "syllabus",cascade = CascadeType.ALL)
     private DeliveryPrinciple deliveryPrinciple;
 
-    @OneToMany(mappedBy = "syllabus")
-    private List<SyllabusUnit> syllabusUnits;
+//    @OneToMany(mappedBy = "syllabus")
+//    private List<SyllabusUnit> syllabusUnits;
 
     //Training Syllabus
 //	@OneToMany(mappedBy = "syllabus")

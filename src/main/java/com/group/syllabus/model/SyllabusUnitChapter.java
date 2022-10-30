@@ -3,14 +3,7 @@ package com.group.syllabus.model;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -37,20 +30,20 @@ public class SyllabusUnitChapter {
     private int duration;
     private boolean isOnline;
 
-    @OneToMany(mappedBy = "unitChapter")
+    @OneToMany(mappedBy = "unitChapter",cascade = CascadeType.ALL)
     private List<Material> materials;
     // unit_id
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "unit_id")
     private SyllabusUnit syllabusUnit;
 
     // output_standard_id
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "output_standard_id")
     private OutputStandard outputStandard;
 
     // delivery_type_id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_type_id")
     private DeliveryType deliveryType;
 

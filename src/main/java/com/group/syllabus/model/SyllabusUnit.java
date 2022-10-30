@@ -3,14 +3,7 @@ package com.group.syllabus.model;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -37,16 +30,16 @@ public class SyllabusUnit {
     private int unitNo;
     private int duration;
 
-    @OneToMany(mappedBy = "syllabusUnit")
+    @OneToMany(mappedBy = "syllabusUnit",cascade = CascadeType.ALL)
     private List<SyllabusUnitChapter> syllabusUnitChapters;
 
     // syllabus_id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "syllabus_id")
-    private Syllabus syllabus;
+//    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//    @JoinColumn(name = "syllabus_id")
+//    private Syllabus syllabus;
 
     // syllabus_day_id
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "syllabus_day_id")
     private SyllabusDay syllabusDay;
 

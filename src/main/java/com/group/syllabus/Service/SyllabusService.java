@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class SyllabusService {
@@ -25,6 +27,8 @@ public class SyllabusService {
     private AssessmentSchemeRepository assessmentSchemeRepository;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private DeliveryTypeRepository deliveryTypeRepository;
 
     public SyllabusDTO createSyllabus(SyllabusDTO syllabusDTO){
         Syllabus syllabus, syllabusWithId;
@@ -51,7 +55,8 @@ public class SyllabusService {
         SyllabusDayDTO result;
         syllabusDay.setSyllabus(syllabus);
 
-//            || SET SYLLABUS DAY ID AND SYLLABUS UNIT DATA ||
+
+//            || SET SYLLABUS UNIT DATA ||
         for (int i = 0; i <= syllabusDay.getSyllabusUnits().size() - 1; i++) {
             SyllabusUnit syllabusUnit = syllabusDay.getSyllabusUnits().get(i);
             syllabusUnit.setSyllabusDay(syllabusDay);
@@ -61,48 +66,29 @@ public class SyllabusService {
             syllabusUnit.setSyllabusUnitChapters(syllabusDay.getSyllabusUnits().get(i).getSyllabusUnitChapters());
             syllabusUnitRepository.save(syllabusUnit);
 
+//            || SET SYLLABUS UNIT CHAPTER DATA ||
             for (int j = 0; j <= syllabusUnit.getSyllabusUnitChapters().size() - 1; j ++){
                 SyllabusUnitChapter syllabusUnitChapter = syllabusUnit.getSyllabusUnitChapters().get(j);
+
+                UUID id = syllabusUnit.getSyllabusUnitChapters().get(j).getDeliveryType().getId();
+                DeliveryType deliveryType = getDeliveryTypeById(id);
+
                 syllabusUnitChapter.setSyllabusUnit(syllabusUnit);
+                syllabusUnitChapter.setDeliveryType(deliveryType);
+//                syllabusUnitChapter.setOutputStandard();
+
                 syllabusUnitChapter.setName(syllabusUnit.getSyllabusUnitChapters().get(j).getName());
                 syllabusUnitChapter.setDuration(syllabusUnit.getSyllabusUnitChapters().get(j).getDuration());
                 syllabusUnitChapter.setMaterials(syllabusUnit.getSyllabusUnitChapters().get(j).getMaterials());
                 syllabusUnitChapter.setSyllabusUnit(syllabusUnit.getSyllabusUnitChapters().get(j).getSyllabusUnit());
-                syllabusUnitChapter.setOutputStandard(syllabusUnit.getSyllabusUnitChapters().get(j).getOutputStandard());
-                syllabusUnitChapter.setDeliveryType(syllabusUnit.getSyllabusUnitChapters().get(j).getDeliveryType());
+
                 syllabusUnitChapter.setOnline(syllabusUnit.getSyllabusUnitChapters().get(j).isOnline());
                 syllabusUnitChapterRepository.save(syllabusUnitChapter);
             }
         }
 
         syllabusDayWithId = syllabusDayRepository.save(syllabusDay);
-
         result = modelMapper.map(syllabusDayWithId, SyllabusDayDTO.class);
-        return result;
-    }
-
-    public SyllabusUnitDTO createSyllabusUnit(SyllabusDay syllabusDay, SyllabusUnit syllabusUnit){
-        SyllabusUnit syllabusUnitWithId;
-        SyllabusUnitDTO result;
-        // PROBLEM
-        syllabusUnit.setSyllabusDay(syllabusDay);
-        syllabusUnitWithId = syllabusUnitRepository.save(syllabusUnit);
-
-        for (int i = 0; i <= syllabusUnitWithId.getSyllabusUnitChapters().size() - 1; i++) {
-            createSyllabusUnitChapter(syllabusUnitWithId, syllabusUnitWithId.getSyllabusUnitChapters().get(i));
-        }
-
-        result = modelMapper.map(syllabusUnitWithId, SyllabusUnitDTO.class);
-        return result;
-    }
-
-
-    public SyllabusUnitChapterDTO createSyllabusUnitChapter(SyllabusUnit syllabusUnit, SyllabusUnitChapter syllabusUnitChapter){
-        SyllabusUnitChapter syllabusUnitChapterWithId;
-        SyllabusUnitChapterDTO result;
-        syllabusUnitChapter.setSyllabusUnit(syllabusUnit);
-        syllabusUnitChapterWithId = syllabusUnitChapterRepository.save(syllabusUnitChapter);
-        result = modelMapper.map(syllabusUnitChapterWithId, SyllabusUnitChapterDTO.class);
         return result;
     }
 
@@ -122,5 +108,9 @@ public class SyllabusService {
         deliveryPrincipleWithId = deliveryPrincipleRepository.save(deliveryPrinciple);
         result = modelMapper.map(deliveryPrincipleWithId, DeliveryPrincipleDTO.class);
         return result;
+    }
+
+    public DeliveryType getDeliveryTypeById(UUID id){
+        return deliveryTypeRepository.findById(id).get();
     }
 }

@@ -18,7 +18,7 @@ public class SyllabusUnitChapterDTO {
     private List<Material> material = new ArrayList<>();
 
     private int duration;
-    private int online;
+    private boolean isOnline;
 
     public UUID getId() {
         return id;
@@ -76,11 +76,11 @@ public class SyllabusUnitChapterDTO {
         this.duration = duration;
     }
 
-    public int getOnline() {
-        return online;
+    public boolean isOnline() {
+        return isOnline;
     }
 
-    public void setOnline(int online) {
-        this.online = online;
+    public void setOnline(boolean online) {
+        isOnline = online;
     }
 }

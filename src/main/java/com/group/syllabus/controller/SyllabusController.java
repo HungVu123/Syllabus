@@ -65,6 +65,7 @@ public class SyllabusController {
 
         Syllabus syllabus = new Syllabus();
         DeliveryPrinciple deliveryprinciple = new DeliveryPrinciple();
+        AssessmentScheme assessmentScheme = new AssessmentScheme();
 
         SyllabusDay syllabusDay = new SyllabusDay();
 
@@ -83,30 +84,30 @@ public class SyllabusController {
         syllabus.setCourseObjective(worksheet1.getRow(6).getCell(3).getStringCellValue()+
                 "\n"+ worksheet1.getRow(11).getCell(3).getStringCellValue());
 
-//  6.Topic Outline
-//        syllabus.setCode(worksheet1.getRow(12).getCell(3).getStringCellValue());
-
 //  8.Training Materials & Environments Technical requirements
         syllabus.setTechnicalRequirement(worksheet1.getRow(22).getCell(4).getStringCellValue());
 
 //  9.Assessment Scheme
-//        for(int i=23;i<27;i++){
-//            for(int j=3;j<7;j++){
-//                System.out.println(worksheet1.getRow(i).getCell(j));
-//            }
-//        }
+        assessmentScheme.setQuiz(worksheet1.getRow(23).getCell(4).getNumericCellValue());
+        assessmentScheme.setAssignment(worksheet1.getRow(24).getCell(4).getNumericCellValue());
+        assessmentScheme.setFinal_theory(worksheet1.getRow(25).getCell(4).getNumericCellValue());
+        assessmentScheme.setFinal_practice(worksheet1.getRow(26).getCell(4).getNumericCellValue());
+        assessmentScheme.setGpa(worksheet1.getRow(27).getCell(4).getNumericCellValue());
+
+        syllabus.setAssessmentScheme(assessmentScheme);
+        Syllabus savedSyllabus = syllabusRepo.save(syllabus);
+        assessmentScheme.setSyllabus(savedSyllabus);
 
 //  10.Training Delivery Principles
-        deliveryprinciple.setTrainees(worksheet1.getRow(27).getCell(4).getStringCellValue());
-        deliveryprinciple.setTrainer(worksheet1.getRow(28).getCell(4).getStringCellValue());
-        deliveryprinciple.setTraining(worksheet1.getRow(29).getCell(4).getStringCellValue());
-        deliveryprinciple.setRe_test(worksheet1.getRow(30).getCell(4).getStringCellValue());
-        deliveryprinciple.setMarking(worksheet1.getRow(31).getCell(4).getStringCellValue());
-        deliveryprinciple.setWaiverCriteria(worksheet1.getRow(32).getCell(4).getStringCellValue());
-        deliveryprinciple.setOthers(worksheet1.getRow(33).getCell(4).getStringCellValue());
+        deliveryprinciple.setTrainees(worksheet1.getRow(28).getCell(4).getStringCellValue());
+        deliveryprinciple.setTrainer(worksheet1.getRow(29).getCell(4).getStringCellValue());
+        deliveryprinciple.setTraining(worksheet1.getRow(30).getCell(4).getStringCellValue());
+        deliveryprinciple.setRe_test(worksheet1.getRow(31).getCell(4).getStringCellValue());
+        deliveryprinciple.setMarking(worksheet1.getRow(32).getCell(4).getStringCellValue());
+        deliveryprinciple.setWaiverCriteria(worksheet1.getRow(33).getCell(4).getStringCellValue());
+        deliveryprinciple.setOthers(worksheet1.getRow(34).getCell(4).getStringCellValue());
 
         syllabus.setDeliveryPrinciple(deliveryprinciple);
-        Syllabus savedSyllabus = syllabusRepo.save(syllabus);
         deliveryprinciple.setSyllabus(savedSyllabus);
         syllabusDay.setSyllabus(savedSyllabus);
         SyllabusDay savedSyllabusDay = syllabusDayRepo.save(syllabusDay);
@@ -125,15 +126,20 @@ public class SyllabusController {
 
                     SyllabusUnitChapter syllabusUnitChapter = new SyllabusUnitChapter();
                     DeliveryType deliveryType = new DeliveryType();
+                    Material material = new Material();
 
                     syllabusUnit.setUnitNo((int) worksheet2.getRow(c).getCell(2).getNumericCellValue());
                     syllabusUnitChapter.setName(worksheet2.getRow(c).getCell(3).getStringCellValue());
                     deliveryType.setName(worksheet2.getRow(c).getCell(4).getStringCellValue());
                     syllabusUnitChapter.setDuration((int) worksheet2.getRow(c).getCell(5).getNumericCellValue());
+                    material.setUrl(worksheet2.getRow(c).getCell(6).getStringCellValue());
 
+                    SyllabusUnitChapter savedSyllabusUnitChapter= syllabusUnitChapterRepo.save(syllabusUnitChapter);
+                    material.setUnitChapter(savedSyllabusUnitChapter);
                     syllabusUnitChapter.setDeliveryType(deliveryType);
                     syllabusUnitChapter.setSyllabusUnit(syllabusUnit);
                     syllabusUnitChapterRepo.save(syllabusUnitChapter);
+
                 }
                 syllabusUnit.setSyllabusDay(savedSyllabusDay);
                 syllabusUnitRepo.save(syllabusUnit);

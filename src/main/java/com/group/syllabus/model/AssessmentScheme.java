@@ -30,7 +30,8 @@ public class AssessmentScheme {
     private UUID id;
     private Double assignment;
     private Double quiz;
-    private Double exam;
+    private Double final_theory;
+    private Double final_practice;
     private Double gpa;
     // syllabus id
     @OneToOne(cascade = CascadeType.ALL)

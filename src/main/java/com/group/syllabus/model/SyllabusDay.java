@@ -38,6 +38,6 @@ public class SyllabusDay {
     @JoinColumn(name = "syllabus_id")
     private Syllabus syllabus;
 
-    @OneToMany(mappedBy = "syllabusDay",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "syllabusDay",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SyllabusUnit> syllabusUnits;
 }

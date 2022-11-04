@@ -33,6 +33,6 @@ public class SyllabusLevel {
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
     private String name;
-    @OneToMany(mappedBy = "syllabusLevel")
+    @OneToMany(mappedBy = "syllabusLevel", orphanRemoval = true)
     List<Syllabus> syllabuses;
 }

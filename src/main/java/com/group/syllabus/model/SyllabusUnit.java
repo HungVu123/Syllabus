@@ -30,7 +30,7 @@ public class SyllabusUnit {
     private int unitNo;
     private int duration;
 
-    @OneToMany(mappedBy = "syllabusUnit",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "syllabusUnit",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SyllabusUnitChapter> syllabusUnitChapters;
 
     // syllabus_id

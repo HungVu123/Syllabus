@@ -27,11 +27,14 @@ public class SyllabusUnitChapter {
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
     private String name;
-    private int duration;
+    private double duration;
     private boolean isOnline;
 
-    @OneToMany(mappedBy = "unitChapter",cascade = CascadeType.ALL)
-    private List<Material> materials;
+    //material_id
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "material_id")
+    private Material material;
+
     // unit_id
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "unit_id")

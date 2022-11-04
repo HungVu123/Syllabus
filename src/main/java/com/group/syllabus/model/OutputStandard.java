@@ -34,8 +34,9 @@ public class OutputStandard {
     private UUID id;
     private String name;
     private String code;
+    @Column(length = 65555)
     private String description;
 
-    @OneToMany(mappedBy = "outputStandard")
+    @OneToMany(mappedBy = "outputStandard", orphanRemoval = true)
     private List<SyllabusUnitChapter> syllabusUnitChapters;
 }

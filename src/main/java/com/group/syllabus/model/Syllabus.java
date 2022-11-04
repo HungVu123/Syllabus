@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.persistence.*;
 
 import com.group.syllabus.meta.SyllabusStatus;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -45,22 +46,24 @@ public class Syllabus {
     boolean isTemplate;
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID createdBy;
+    @CreationTimestamp
     private Date createdDate;
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID updatedBy;
+    @CreationTimestamp
     private Date updatedDate;
 
-    @OneToOne(mappedBy = "syllabus",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "syllabus",cascade = CascadeType.ALL, orphanRemoval = true)
     private AssessmentScheme assessmentScheme;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "level_id")
     private SyllabusLevel syllabusLevel;
 
-    @OneToMany(mappedBy = "syllabus")
+    @OneToMany(mappedBy = "syllabus", orphanRemoval = true)
     List<SyllabusDay> syllabusDays;
 
-    @OneToOne(mappedBy = "syllabus",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "syllabus",cascade = CascadeType.ALL,orphanRemoval = true)
     private DeliveryPrinciple deliveryPrinciple;
 
 //    @OneToMany(mappedBy = "syllabus")

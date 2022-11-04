@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/")
@@ -57,7 +59,8 @@ public class SyllabusController {
     }
 
     @PostMapping("/import")
-    public void mapReapExcelDatatoDB(@RequestParam("file") MultipartFile reapExcelDataFile) throws IOException {
+    public void mapReapExcelDatatoDB(@RequestParam("file") MultipartFile reapExcelDataFile,@RequestParam("checkbox") List<String> checkbox,
+                                     @RequestParam("radio") String radio) throws IOException {
 
         XSSFWorkbook workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream());
         XSSFSheet worksheet1 = workbook.getSheetAt(0);
@@ -66,26 +69,92 @@ public class SyllabusController {
         Syllabus syllabus = new Syllabus();
         DeliveryPrinciple deliveryprinciple = new DeliveryPrinciple();
         AssessmentScheme assessmentScheme = new AssessmentScheme();
-
         SyllabusDay syllabusDay = new SyllabusDay();
 
-//Sheet 1: Syllabus
-
-//  1.Topic Name
+        syllabus.setDays(Integer.parseInt(String.valueOf(worksheet1.getRow(13).getCell(6).getStringCellValue().charAt(0))));
         syllabus.setName(worksheet1.getRow(2).getCell(3).getStringCellValue());
-
-//  2.Topic Code
         syllabus.setCode(worksheet1.getRow(3).getCell(3).getStringCellValue());
-
-//  3.Version
         syllabus.setVersion(worksheet1.getRow(4).getCell(3).getStringCellValue());
-
-//  5.Objectives
         syllabus.setCourseObjective(worksheet1.getRow(6).getCell(3).getStringCellValue()+
                 "\n"+ worksheet1.getRow(11).getCell(3).getStringCellValue());
-
-//  8.Training Materials & Environments Technical requirements
         syllabus.setTechnicalRequirement(worksheet1.getRow(22).getCell(4).getStringCellValue());
+        syllabus.setHours((int) worksheet2.getRow(37).getCell(5).getNumericCellValue());
+        syllabus.setAssessmentScheme(assessmentScheme);
+        syllabus.setDeliveryPrinciple(deliveryprinciple);
+
+        boolean dupe = true;
+        if(checkbox.size() == 1 ){
+            if(checkbox.get(0).equals("code")){
+                //name
+                if (syllabusRepo.findAllByCode(syllabus.getCode()).isEmpty()){
+                    Syllabus savedSyllabus = syllabusRepo.save(syllabus);
+                    assessmentScheme.setSyllabus(savedSyllabus);
+                    deliveryprinciple.setSyllabus(savedSyllabus);
+                    syllabusDay.setSyllabus(savedSyllabus);
+                    dupe = false;
+                }
+            } else {
+                if (syllabusRepo.findAllByName(syllabus.getName()).isEmpty()){
+                    Syllabus savedSyllabus = syllabusRepo.save(syllabus);
+                    assessmentScheme.setSyllabus(savedSyllabus);
+                    deliveryprinciple.setSyllabus(savedSyllabus);
+                    syllabusDay.setSyllabus(savedSyllabus);
+                    dupe = false;
+                }
+            }
+        } else {
+            //ca 2
+            if (syllabusRepo.findAllByName(syllabus.getName()).isEmpty()){
+                if (syllabusRepo.findAllByCode(syllabus.getCode()).isEmpty()){
+                    Syllabus savedSyllabus = syllabusRepo.save(syllabus);
+                    assessmentScheme.setSyllabus(savedSyllabus);
+                    deliveryprinciple.setSyllabus(savedSyllabus);
+                    syllabusDay.setSyllabus(savedSyllabus);
+                    dupe = false;
+                }
+            }
+        }
+        if (dupe) {
+            if(radio.equals("allow")){
+                Syllabus savedSyllabus = syllabusRepo.save(syllabus);
+                assessmentScheme.setSyllabus(savedSyllabus);
+                deliveryprinciple.setSyllabus(savedSyllabus);
+                syllabusDay.setSyllabus(savedSyllabus);
+            }else if(radio.equals("replace")){
+                if(checkbox.size() == 1 ){
+                    if(checkbox.get(0).equals("code")){
+
+                        for ( Syllabus asylabus : syllabusRepo.findAllByCode(syllabus.getCode())){
+                            syllabusRepo.deleteById(asylabus.getId());
+                        }
+                        Syllabus savedSyllabus = syllabusRepo.save(syllabus);
+                        assessmentScheme.setSyllabus(savedSyllabus);
+                        deliveryprinciple.setSyllabus(savedSyllabus);
+                        syllabusDay.setSyllabus(savedSyllabus);
+                    } else {
+                        for (  Syllabus asylabus : syllabusRepo.findAllByName(syllabus.getName())){
+                            syllabusRepo.deleteById(asylabus.getId());
+                        }
+                        Syllabus savedSyllabus = syllabusRepo.save(syllabus);
+                        assessmentScheme.setSyllabus(savedSyllabus);
+                        deliveryprinciple.setSyllabus(savedSyllabus);
+                        syllabusDay.setSyllabus(savedSyllabus);
+                    }
+                } else {
+                    //ca 2
+                    for ( Syllabus asylabus : syllabusRepo.findAllByCode(syllabus.getCode())){
+                        syllabusRepo.deleteById(asylabus.getId());
+                    }
+                    for ( Syllabus asylabus : syllabusRepo.findAllByName(syllabus.getName())){
+                        syllabusRepo.deleteById(asylabus.getId());
+                    }
+                    Syllabus savedSyllabus = syllabusRepo.save(syllabus);
+                    assessmentScheme.setSyllabus(savedSyllabus);
+                    deliveryprinciple.setSyllabus(savedSyllabus);
+                    syllabusDay.setSyllabus(savedSyllabus);
+                }
+            }
+        }
 
 //  9.Assessment Scheme
         assessmentScheme.setQuiz(worksheet1.getRow(23).getCell(4).getNumericCellValue());
@@ -93,10 +162,6 @@ public class SyllabusController {
         assessmentScheme.setFinal_theory(worksheet1.getRow(25).getCell(4).getNumericCellValue());
         assessmentScheme.setFinal_practice(worksheet1.getRow(26).getCell(4).getNumericCellValue());
         assessmentScheme.setGpa(worksheet1.getRow(27).getCell(4).getNumericCellValue());
-
-        syllabus.setAssessmentScheme(assessmentScheme);
-        Syllabus savedSyllabus = syllabusRepo.save(syllabus);
-        assessmentScheme.setSyllabus(savedSyllabus);
 
 //  10.Training Delivery Principles
         deliveryprinciple.setTrainees(worksheet1.getRow(28).getCell(4).getStringCellValue());
@@ -107,14 +172,11 @@ public class SyllabusController {
         deliveryprinciple.setWaiverCriteria(worksheet1.getRow(33).getCell(4).getStringCellValue());
         deliveryprinciple.setOthers(worksheet1.getRow(34).getCell(4).getStringCellValue());
 
-        syllabus.setDeliveryPrinciple(deliveryprinciple);
-        deliveryprinciple.setSyllabus(savedSyllabus);
-        syllabusDay.setSyllabus(savedSyllabus);
         SyllabusDay savedSyllabusDay = syllabusDayRepo.save(syllabusDay);
 
 //----------------------------------------------------------------------------------------------------------------------
 //Sheet 2 :Schedule
-        int numMerged = worksheet2.getNumMergedRegions();
+        int numMerged = worksheet2.getNumMergedRegions() ;
             for(int n=0;n<numMerged;n++){
 
                 SyllabusUnit syllabusUnit = new SyllabusUnit();
@@ -122,31 +184,29 @@ public class SyllabusController {
                 int firstRow = worksheet2.getMergedRegion(n).getFirstRow();
                 int lastRow = worksheet2.getMergedRegion(n).getLastRow();
                 syllabusUnit.setName(worksheet2.getRow(firstRow).getCell(1).getStringCellValue());
+                syllabusUnit.setUnitNo((int) worksheet2.getRow(firstRow).getCell(2).getNumericCellValue());
+                syllabusUnit.setSyllabusDay(savedSyllabusDay);
+
+                double sum = 0;
                 for(int c=firstRow;c<=lastRow;c++){
+                    sum = sum + worksheet2.getRow(c).getCell(5).getNumericCellValue();
 
                     SyllabusUnitChapter syllabusUnitChapter = new SyllabusUnitChapter();
                     DeliveryType deliveryType = new DeliveryType();
                     Material material = new Material();
 
-                    syllabusUnit.setUnitNo((int) worksheet2.getRow(c).getCell(2).getNumericCellValue());
                     syllabusUnitChapter.setName(worksheet2.getRow(c).getCell(3).getStringCellValue());
                     deliveryType.setName(worksheet2.getRow(c).getCell(4).getStringCellValue());
-                    syllabusUnitChapter.setDuration((int) worksheet2.getRow(c).getCell(5).getNumericCellValue());
-                    material.setUrl(worksheet2.getRow(c).getCell(6).getStringCellValue());
-
-                    SyllabusUnitChapter savedSyllabusUnitChapter= syllabusUnitChapterRepo.save(syllabusUnitChapter);
-                    material.setUnitChapter(savedSyllabusUnitChapter);
+                    syllabusUnitChapter.setDuration(worksheet2.getRow(c).getCell(5).getNumericCellValue());
+                    deliveryType.setDescription(worksheet2.getRow(c).getCell(6).getStringCellValue());
+                    
                     syllabusUnitChapter.setDeliveryType(deliveryType);
                     syllabusUnitChapter.setSyllabusUnit(syllabusUnit);
+                    syllabusUnitChapter.setMaterial(material);
                     syllabusUnitChapterRepo.save(syllabusUnitChapter);
-
                 }
-                syllabusUnit.setSyllabusDay(savedSyllabusDay);
+                syllabusUnit.setDuration((int) sum);
                 syllabusUnitRepo.save(syllabusUnit);
-
             }
-
        }
-
-
     }

@@ -30,9 +30,10 @@ public class DeliveryType {
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
     private String name;
+    @Column(length = 65555)
     private String description;
 
-    @OneToMany(mappedBy = "deliveryType",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "deliveryType",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SyllabusUnitChapter> syllabusUnitChapter;
 
 }

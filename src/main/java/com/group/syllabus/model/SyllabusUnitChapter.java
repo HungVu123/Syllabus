@@ -38,6 +38,7 @@ public class SyllabusUnitChapter {
 
     @OneToMany(mappedBy = "unitChapter")
     private List<Material> materials;
+
     // unit_id
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,13 +46,11 @@ public class SyllabusUnitChapter {
     private SyllabusUnit syllabusUnit;
 
     // output_standard_id
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "output_standard_id")
     private OutputStandard outputStandard;
 
     // delivery_type_id
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "delivery_type_id")
     private DeliveryType deliveryType;

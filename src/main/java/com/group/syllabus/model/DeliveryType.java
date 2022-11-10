@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -33,6 +34,7 @@ public class DeliveryType {
     private String name;
     private String description;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "deliveryType")
     private List<SyllabusUnitChapter> syllabusUnitChapter;
 

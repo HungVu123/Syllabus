@@ -6,13 +6,15 @@ import java.util.UUID;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.group.syllabus.meta.SyllabusStatus;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Syllabus {
@@ -48,6 +50,7 @@ public class Syllabus {
     @OneToOne(mappedBy = "syllabus", cascade = CascadeType.ALL)
     private AssessmentScheme assessmentScheme;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "level_id")
     private SyllabusLevel syllabusLevel;

@@ -36,13 +36,13 @@ public class SyllabusController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SyllabusController.class);
     @PostMapping ("/create")
 
-    public ResponseEntity<?> createNew(@RequestBody SyllabusDTO syllabus) {
+    public ResponseEntity<?> createNew(@RequestBody SyllabusDTO syllabusDTO) {
         LOGGER.info("Start method save in Syllabus Controller");
         String message = "";
         try {
-            SyllabusDTO syllabusDTO = syllabusService.createSyllabus(syllabus);
+            Syllabus syllabus = syllabusService.createSyllabus(syllabusDTO);
             LOGGER.info(message);
-            ResponseObject response = new ResponseObject("OK", message, null, syllabusDTO);
+            ResponseObject response = new ResponseObject("OK", message, null, syllabus);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             message = "Couldn't Create Syllabus" ;

@@ -33,8 +33,8 @@ public class AssessmentScheme {
     private Double finalTheory;
     private Double finalPractice;
     // syllabus id
-    @OneToOne
     @JsonIgnore
+    @OneToOne
     @JoinColumn(name = "syllabus_id", referencedColumnName = "id")
     private Syllabus syllabus;
 
